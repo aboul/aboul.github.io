@@ -1,0 +1,54 @@
+.tile {
+  @include perspective(1000px);
+  margin: 0;
+  position: relative;
+  
+  	&.flipped .tile_flip {
+  		@include transform(rotateY(-180deg) translateX(-100%));
+  	}
+
+  	&,
+  	.front,
+  	.back {
+  		width: 100%;
+  		height: 450px;
+  	}
+
+	.tile_flip {
+	  width: 100%;
+	  height: 100%;
+	  position: absolute;
+
+	  @include transition-property(transform);
+	  @include transition-duration(1s);
+	  @include transform-style(preserve-3d);
+	  @include transform-origin('right center');
+
+	  > div > img {
+	  	position: relative;
+	  }
+	}
+
+	.front, .back {
+		position: absolute;
+		overflow: hidden;
+		
+		@include backface-visibility(hidden);
+	}
+
+	/* front pane, placed above back */
+	.front {
+		z-index: 2;
+		/* for firefox 31 */
+		@include transform(rotateY(0deg));
+	}
+
+	/* back, initially hidden pane */
+	.back {
+		@include transform(rotateY(180deg) translateX(-100%));
+	}
+}
+
+.owl-carousel .owl-wrapper, .owl-carousel .owl-item {
+	backface-visibility: visible;
+}
